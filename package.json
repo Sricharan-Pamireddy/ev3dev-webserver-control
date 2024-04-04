@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "node-adb": "^0.1.6",
+    "node-ssh": "^13.1.0"
+  }
+}
