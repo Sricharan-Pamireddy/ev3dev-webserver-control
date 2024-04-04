@@ -1,1 +1,1 @@
-This is a class that builds on top of ```ev3dev-webserver-control```
+This is a class that builds on top of ```ev3dev-webserver-control``` to create a webserver that a Lego MindStorms EV3 can be controlled from.
