@@ -1,6 +1,7 @@
 class Actions {
-    constructor(list, motors, sliders) {
+    constructor(list, motors, sliders, network) {
         this.sliders = sliders;
+        this.network = network;
         this.actions = {};
         for (var i in list) {
             var name = i;
@@ -16,11 +17,11 @@ class Actions {
         var arr = [];
         var action = this.actions[name];
         for (var i in action) {
-            var speed = this.sliders.value(action[i].speed);
+            var speed = action[i].speed;
+            if (typeof speed == "string") speed = this.sliders.value(speed);
             if (action[i].inverted) speed = -speed;
             arr.push([action[i].port, speed]);
         }
-
-        console.log(arr);
+        this.network.setMotorsSpeeds(arr);
     }
 }

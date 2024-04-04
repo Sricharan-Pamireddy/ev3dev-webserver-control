@@ -42,18 +42,33 @@ app.get("/webConfig.json", (req, res) => {
     }
 });
 
+var socketCount = 0;
+
 io.on('connection', function (socket) {
     console.log('A user connected');
 
+    if (socketCount == 0) {
+        //bot.runDirectAllMotors();
+        socketCount++;
+    }
+
     socket.on('disconnect', async function () {
         console.log(`A user disconnected`);
-        await bot.resetAllMotors();
+        //await bot.resetAllMotors();
+        socketCount--;
+    });
+
+    socket.on('setMotorsSpeeds', (arr) => {
+        console.log(`Set Motors Speeds`);
+        console.log(arr);
+        bot.setMotorSpeeds(arr);
     });
 });
 
 var bot = new EV3Control(config.ev3.address, config.ev3.sshPort, config.ev3.username, config.ev3.password);
 
-bot.on("ready", () => {
+bot.on("ready", async () => {
+    await bot.runDirectAllMotors();
     http.listen(config.port, function () {
         console.log(`WebServer started on port ${config.port}`);
     });
