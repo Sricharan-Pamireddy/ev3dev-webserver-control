@@ -21,11 +21,33 @@ var EV3Control = require('./class/EV3Control');
 
 app.use(express.static(config.path));
 
+app.get("/webConfig.json", (req, res) => {
+    try {
+        var data = fs.readFileSync(args[2]);
+        res.writeHead(200, { 'Content-Type': 'text/json' });
+        data = JSON.parse(data);
+        data = data.webConfig;
+        data = JSON.stringify(data);
+        res.write(data);
+        res.end();
+    } catch (err) {
+        res.writeHead(500, {'Content-Type': 'text/json'});
+        var data = {};
+        data.status = 500;
+        data.message = `Could Not Read Config File`;
+        data.error = "" + err + "";
+        data = JSON.stringify(data);
+        res.write(data);
+        res.end();
+    }
+});
+
 io.on('connection', function (socket) {
     console.log('A user connected');
 
-    socket.on('disconnect', function () {
+    socket.on('disconnect', async function () {
         console.log(`A user disconnected`);
+        await bot.resetAllMotors();
     });
 });
 
