@@ -1,0 +1,11 @@
+{
+    "port": 8000,
+    "path": "public",
+    "ev3": {
+        "address": null,
+        "sshPort": 22,
+        "username": null,
+        "password": null,
+        "webPort": 8080
+    }
+}
