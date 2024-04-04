@@ -5,6 +5,5 @@ class Network {
 
     setMotorsSpeeds(arr) {
         this.socket.emit("setMotorsSpeeds", arr);
-        console.log("hmm");
     }
 }

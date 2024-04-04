@@ -1,6 +1,6 @@
 var socket = io();
 
-var config, motors, elements, actions, network;
+var config, motors, elements, actions, network, keybinds;
 
 (async () => {
     config = (await fetch('./webConfig.json'));
@@ -12,4 +12,5 @@ var config, motors, elements, actions, network;
     network = new Network(socket);
 
     actions = new Actions(config.actions, motors, elements, network);
+    keybinds = new Keybinds(actions, config.keybinds);
 })();
