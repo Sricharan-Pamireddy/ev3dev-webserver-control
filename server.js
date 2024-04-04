@@ -17,6 +17,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var EV3Control = require('./class/EV3Control');
 
 app.use(express.static(config.path));
 
@@ -28,6 +29,10 @@ io.on('connection', function (socket) {
     });
 });
 
-http.listen(config.port, function () {
-    console.log(`WebServer started on port ${config.port}`);
+var bot = new EV3Control(config.ev3.address, config.ev3.sshPort, config.ev3.username, config.ev3.password);
+
+bot.on("ready", () => {
+    http.listen(config.port, function () {
+        console.log(`WebServer started on port ${config.port}`);
+    });
 });
